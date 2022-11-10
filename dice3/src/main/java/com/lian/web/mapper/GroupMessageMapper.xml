@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lian.web.mapper.GroupMessageMapper">
+  <resultMap id="BaseResultMap" type="com.lian.web.model.GroupMessage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userSend" jdbcType="VARCHAR" property="usersend" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="roomNumber" jdbcType="INTEGER" property="roomnumber" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userSend, time, roomNumber, message
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from groupMessage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="getMessage" resultType="java.util.Map">
+      select * from groupMessage where roomNumber=#{roomNumber} order by time
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from groupMessage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lian.web.model.GroupMessage">
+    insert into groupMessage (id, userSend, time, 
+      roomNumber, message)
+    values (#{id,jdbcType=INTEGER}, #{usersend,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, 
+      #{roomnumber,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lian.web.model.GroupMessage">
+    insert into groupMessage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="usersend != null">
+        userSend,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="roomnumber != null">
+        roomNumber,
+      </if>
+      <if test="message != null">
+        message,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="usersend != null">
+        #{usersend,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="roomnumber != null">
+        #{roomnumber,jdbcType=INTEGER},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lian.web.model.GroupMessage">
+    update groupMessage
+    <set>
+      <if test="usersend != null">
+        userSend = #{usersend,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="roomnumber != null">
+        roomNumber = #{roomnumber,jdbcType=INTEGER},
+      </if>
+      <if test="message != null">
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lian.web.model.GroupMessage">
+    update groupMessage
+    set userSend = #{usersend,jdbcType=VARCHAR},
+      time = #{time,jdbcType=VARCHAR},
+      roomNumber = #{roomnumber,jdbcType=INTEGER},
+      message = #{message,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

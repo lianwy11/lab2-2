@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lian.web.mapper.RoomMemberMapper">
+  <resultMap id="BaseResultMap" type="com.lian.web.model.RoomMember">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="roomNumber" jdbcType="INTEGER" property="roomnumber" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, roomNumber, username
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from roomMember
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="checkUser" resultType="java.lang.Integer">
+      select roomNumber from roomMember where username=#{username}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from roomMember
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lian.web.model.RoomMember">
+    insert into roomMember (id, roomNumber, username
+      )
+    values (#{id,jdbcType=INTEGER}, #{roomnumber,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lian.web.model.RoomMember">
+    insert into roomMember
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roomnumber != null">
+        roomNumber,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roomnumber != null">
+        #{roomnumber,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lian.web.model.RoomMember">
+    update roomMember
+    <set>
+      <if test="roomnumber != null">
+        roomNumber = #{roomnumber,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lian.web.model.RoomMember">
+    update roomMember
+    set roomNumber = #{roomnumber,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

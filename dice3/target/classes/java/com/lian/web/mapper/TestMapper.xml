@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lian.web.mapper.TestMapper">
+  <resultMap id="BaseResultMap" type="com.lian.web.model.Test">
+    <id column="b" jdbcType="INTEGER" property="b" />
+    <result column="a" jdbcType="VARCHAR" property="a" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    b, a
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from test
+    where b = #{b,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from test
+    where b = #{b,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lian.web.model.Test">
+    insert into test (b, a)
+    values (#{b,jdbcType=INTEGER}, #{a,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lian.web.model.Test">
+    insert into test
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="b != null">
+        b,
+      </if>
+      <if test="a != null">
+        a,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="b != null">
+        #{b,jdbcType=INTEGER},
+      </if>
+      <if test="a != null">
+        #{a,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lian.web.model.Test">
+    update test
+    <set>
+      <if test="a != null">
+        a = #{a,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where b = #{b,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lian.web.model.Test">
+    update test
+    set a = #{a,jdbcType=VARCHAR}
+    where b = #{b,jdbcType=INTEGER}
+  </update>
+</mapper>
